@@ -42,7 +42,9 @@ defmodule CodeSampleIntegrationTest do
     end
   end
 
-  test "We can add a comment to a file"
+  test "We can add a comment to a file", context do
+    assert CodeSample.create_comment!("1234", context[:file_id], CodeSample.Authentication.get_token)
+  end
 
   test "We can delete a comment from a file"
 
