@@ -34,7 +34,7 @@ defmodule CodeSample do
 
   @doc """
   Creates a comment on the given file.
-  Works the exact same as create_comment, except it raises an exception if the post fails
+  Works the exact same as create_comment, except it raises an exception if the create fails
   """
   def create_comment!(comment, file_id, token) do
     case create_comment(comment, file_id, token) do
@@ -90,7 +90,7 @@ defmodule CodeSample do
 
   @doc """
   Updates a comment
-  Works the exact same as update_comment, except it raises an exception if the delete fails
+  Works the exact same as update_comment, except it raises an exception if the update fails
   """
   def update_comment!(comment, comment_id, token) do
     case update_comment(comment, comment_id, token) do
@@ -123,7 +123,7 @@ defmodule CodeSample do
 
   @doc """
   Gets a comment
-  Works the exact same as get_comment, except it raises an exception if the delete fails
+  Works the exact same as get_comment, except it raises an exception if the get fails
   """
   def get_comment!(comment_id, token) do
     case get_comment(comment_id, token) do
