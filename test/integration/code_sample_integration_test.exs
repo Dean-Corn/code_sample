@@ -47,6 +47,7 @@ defmodule CodeSampleIntegrationTest do
   end
 
   test "We can delete a comment from a file", context do
+    #Get token
     current_token = CodeSample.Authentication.get_token
     #Create a comment to delete
     test_comment_id = CodeSample.create_comment("1234", context[:file_id], current_token)
@@ -57,8 +58,9 @@ defmodule CodeSampleIntegrationTest do
   end
 
   test "We can modify a comment on a file", context do
+    #Get token
     current_token = CodeSample.Authentication.get_token
-    #Create a comment to delete
+    #Create a comment to update
     test_comment_id = CodeSample.create_comment("1234", context[:file_id], current_token)
     # Extract Comment ID
     comment_id = elem(test_comment_id, 1)
@@ -68,8 +70,9 @@ defmodule CodeSampleIntegrationTest do
 
   #Extra Tests
   test "We can get a comment by it's ID", context do
+    #Get token
     current_token = CodeSample.Authentication.get_token
-    #Create a comment to delete
+    #Create a comment to get
     test_comment_id = CodeSample.create_comment("1234", context[:file_id], current_token)
     #Extract Comment ID
     comment_id = elem(test_comment_id, 1)
