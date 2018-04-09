@@ -46,7 +46,34 @@ defmodule CodeSampleIntegrationTest do
     assert CodeSample.create_comment!("1234", context[:file_id], CodeSample.Authentication.get_token)
   end
 
-  test "We can delete a comment from a file"
+  test "We can delete a comment from a file", context do
+    current_token = CodeSample.Authentication.get_token
+    #Create a comment to delete
+    test_comment_id = CodeSample.create_comment("1234", context[:file_id], current_token)
+    # Extract Comment ID
+    comment_id = elem(test_comment_id, 1)
+    #Delete the comment
+    assert CodeSample.delete_comment!(comment_id, current_token)
+  end
 
-  test "We can modify a comment on a file"
+  test "We can modify a comment on a file", context do
+    current_token = CodeSample.Authentication.get_token
+    #Create a comment to delete
+    test_comment_id = CodeSample.create_comment("1234", context[:file_id], current_token)
+    # Extract Comment ID
+    comment_id = elem(test_comment_id, 1)
+    #Update the comment
+    assert CodeSample.update_comment!("4321",comment_id, current_token)
+  end
+
+  #Extra Tests
+  test "We can get a comment by it's ID", context do
+    current_token = CodeSample.Authentication.get_token
+    #Create a comment to delete
+    test_comment_id = CodeSample.create_comment("1234", context[:file_id], current_token)
+    #Extract Comment ID
+    comment_id = elem(test_comment_id, 1)
+    #Get the comment
+    assert CodeSample.get_comment!(comment_id, current_token)
+  end
 end
