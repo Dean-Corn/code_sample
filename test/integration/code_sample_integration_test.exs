@@ -68,8 +68,7 @@ defmodule CodeSampleIntegrationTest do
     assert CodeSample.update_comment!("4321",comment_id, current_token)
   end
 
-  #Extra Tests
-  test "We can get a comment by it's ID", context do
+  test "We can get a comment on a file", context do
     #Get a token
     current_token = CodeSample.Authentication.get_token
     #Create a comment to get
@@ -79,4 +78,23 @@ defmodule CodeSampleIntegrationTest do
     #Get the comment
     assert CodeSample.get_comment!(comment_id, current_token)
   end
+
+  test "Deleting a non-existant comment raises an exception" do
+    assert_raise RuntimeError, fn ->
+      CodeSample.delete_comment!("1234", CodeSample.Authentication.get_token)
+    end
+  end
+
+  test "Updating a non-existant comment raises an exception" do
+    assert_raise RuntimeError, fn ->
+      CodeSample.update_comment!("4321", "1234", CodeSample.Authentication.get_token)
+    end
+  end
+
+  test "Getting a non-existant comment raises an exception" do
+    assert_raise RuntimeError, fn ->
+      CodeSample.get_comment!("1234", CodeSample.Authentication.get_token)
+    end
+  end
+
 end

@@ -55,6 +55,8 @@ defmodule CodeSample do
         {:ok, "Successfully deleted Comment ID #{comment_id}"}
       %{status_code: 401} ->
         {:auth_failure, "Failed to delete comment.  Authorization token is invalid"}
+      %{status_code: 404} ->
+        {:error, "Failed to delete comment.  Comment ID #{comment_id} not found."} 
       %{status_code: code, body: body} ->
         {:error, "Failed to delete Comment ID #{comment_id}.  DELETE received #{code}: #{body}"}
     end
@@ -79,10 +81,12 @@ defmodule CodeSample do
   @spec update_comment(String.t, String.t, String.t) :: {:ok, String.t} | {:auth_failure, String.t} | {:error, String.t}
   def update_comment(comment, comment_id, token) do
     case HTTPoison.put! "https://api.box.com/2.0/comments/#{comment_id}",Poison.encode!(%{message: "#{comment}"}), %{Authorization: "Bearer #{token}"} do
-      %{status_code: 200, body: body} ->
+      %{status_code: 200} ->
         {:ok, "Successfully updated Comment ID #{comment_id}"}
       %{status_code: 401} ->
         {:auth_failure, "Failed to update comment.  Authorization token is invalid"}
+      %{status_code: 404} ->
+        {:error, "Failed to update comment.  Comment ID #{comment_id} not found."} 
       %{status_code: status_code, body: body} ->
         {:error, "Failed to update Comment ID #{comment_id}, PUT returned #{status_code}: #{Poison.decode!(body)}"}
     end
@@ -101,8 +105,6 @@ defmodule CodeSample do
     end
   end
 
-  #Extra Functions
-
   @doc """
   Gets a comment
   """
@@ -116,6 +118,8 @@ defmodule CodeSample do
         {:ok, message}
       %{status_code: 401} ->
         {:auth_failure, "Failed to get comment.  Authorization token is invalid"}
+      %{status_code: 404} ->
+        {:error, "Failed to get comment.  Comment ID #{comment_id} not found."} 
       %{status_code: code, body: body} ->
         raise "Failed to get Comment ID #{comment_id}.  Received #{code}: #{body}"
     end
